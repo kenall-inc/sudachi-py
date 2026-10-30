@@ -52,7 +52,9 @@ cdef void build_lattice_c(object tokenizer, object input_):
 
             lex = lexicon.lexicons[word_id >> 28]
             idx = (0x0FFFFFFF & word_id) * 3 # 3 is ELEMENT_SIZE_AS_SHORT
-            left_id, right_id, cost = lex.word_params._array_view[idx:idx+3]
+            left_id = lex.word_params._array_view[idx]
+            right_id = lex.word_params._array_view[idx + 1]
+            cost = lex.word_params._array_view[idx + 2]
             n = LatticeNode(lexicon, left_id, right_id, cost, word_id)
 
             lattice.insert(i, end, n)
